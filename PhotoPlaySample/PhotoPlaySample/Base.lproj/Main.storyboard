@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="PhotoPlaySample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q7p-si-yNm">
+                                <rect key="frame" x="0.0" y="754" width="393" height="64"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="248" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="4lp-ya-Yac">
+                                        <rect key="frame" x="16" y="8" width="361" height="48"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nGk-YU-8NI">
+                                                <rect key="frame" x="0.0" y="0.0" width="176.66666666666666" height="48"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="Select" imagePadding="8">
+                                                    <imageReference key="image" image="photo" catalog="system" symbolScale="medium"/>
+                                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="didTapSelectButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ea9-lG-dyf"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JqN-kq-xDH">
+                                                <rect key="frame" x="184.66666666666663" y="0.0" width="176.33333333333337" height="48"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="Save" imagePadding="8">
+                                                    <imageReference key="image" image="square.and.arrow.down" catalog="system" symbolScale="medium"/>
+                                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="didTapSaveButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UMd-dc-CaE"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="37l-T4-PXM"/>
+                                    <constraint firstItem="4lp-ya-Yac" firstAttribute="leading" secondItem="Q7p-si-yNm" secondAttribute="leading" constant="16" id="AZQ-Kx-oLR"/>
+                                    <constraint firstItem="4lp-ya-Yac" firstAttribute="top" secondItem="Q7p-si-yNm" secondAttribute="top" constant="8" id="OFa-YG-9Hi"/>
+                                    <constraint firstAttribute="trailing" secondItem="4lp-ya-Yac" secondAttribute="trailing" constant="16" id="rfe-B3-xEt"/>
+                                    <constraint firstAttribute="bottom" secondItem="4lp-ya-Yac" secondAttribute="bottom" constant="8" id="yvo-KF-1eU"/>
+                                </constraints>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="7WU-Vi-Rta">
+                                <rect key="frame" x="0.0" y="60.666666666666686" width="393" height="692"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <color key="tintColor" systemColor="tertiaryLabelColor"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7WU-Vi-Rta" secondAttribute="trailing" id="N6z-b4-Y1x"/>
+                            <constraint firstItem="7WU-Vi-Rta" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Wid-Gi-f6h"/>
+                            <constraint firstItem="7WU-Vi-Rta" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="m9a-DT-b5I"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Q7p-si-yNm" secondAttribute="trailing" id="oqn-MB-CBc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Q7p-si-yNm" secondAttribute="bottom" id="qJc-Kv-9ay"/>
+                            <constraint firstItem="Q7p-si-yNm" firstAttribute="top" secondItem="7WU-Vi-Rta" secondAttribute="bottom" id="y5W-ur-YBh"/>
+                            <constraint firstItem="Q7p-si-yNm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="zZT-j3-tZC"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="previewImageView" destination="7WU-Vi-Rta" id="f6P-hh-Ioa"/>
+                        <outlet property="saveButton" destination="JqN-kq-xDH" id="eDO-1U-PyF"/>
+                        <outlet property="selectButton" destination="nGk-YU-8NI" id="2HE-My-8p3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-153.43511450381678" y="-28.169014084507044"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="photo" catalog="system" width="128" height="93"/>
+        <image name="photo.fill" catalog="system" width="128" height="93"/>
+        <image name="square.and.arrow.down" catalog="system" width="112" height="128"/>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tertiaryLabelColor">
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29803921570000003" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
