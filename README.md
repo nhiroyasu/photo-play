@@ -14,6 +14,9 @@ func presentPhotoPlay(image: CGImage) {
 }
 ```
 
+# Sample
+You can try the sample project by cloning the repository and opening [PhotoPlaySample/PhotoPlaySample.xcodeproj](https://github.com/nhiroyasu/photo-play/tree/main/PhotoPlaySample/PhotoPlaySample.xcodeproj).
+
 # Feature
 ## Image Control
 <img src="https://github.com/user-attachments/assets/28ef74f0-98b9-4540-bd2f-363764f66d92" width=300 />
