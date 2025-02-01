@@ -28,6 +28,7 @@ public final class CAImageCanvasManager: CACanvasManager, ImageCanvasManager {
     let onChangeOperation: PassthroughSubject<ImageCanvasOperation, Never> = .init()
     public var pen: Pen = .gPen(color: .init(gray: 0, alpha: 1.0), size: 0.0)
     let onChangePen: PassthroughSubject<Pen, Never> = .init()
+    let onChangeSelectionState: PassthroughSubject<Bool, Never> = .init()
 
     var cancellable: Set<AnyCancellable> = []
 
@@ -88,6 +89,7 @@ public final class CAImageCanvasManager: CACanvasManager, ImageCanvasManager {
             .sink { [weak self] _ in
                 self?.selectedLayers.removeAll()
                 self?.selectionFrameLayer.setNeedsDisplay()
+                self?.onChangeSelectionState.send(false)
             }
             .store(in: &cancellable)
     }
@@ -110,6 +112,10 @@ public final class CAImageCanvasManager: CACanvasManager, ImageCanvasManager {
 
     public func penPublisher() -> AnyPublisher<Pen, Never> {
         onChangePen.eraseToAnyPublisher()
+    }
+
+    public func selectionStatePublisher() -> AnyPublisher<Bool, Never> {
+        onChangeSelectionState.eraseToAnyPublisher()
     }
 
     // MARK: - Canvas
@@ -242,6 +248,15 @@ public final class CAImageCanvasManager: CACanvasManager, ImageCanvasManager {
         imageLayer.contents = image
         imageLayer.relativeLayout(parentBounds: overlayContainerLayer.bounds)
         overlayContainerLayer.addSublayer(imageLayer)
+    }
+
+    public func removeSelectingLayer() {
+        for layer in selectedLayers {
+            layer.removeFromSuperlayer()
+        }
+        selectedLayers.removeAll()
+        selectionFrameLayer.setNeedsDisplay()
+        onChangeSelectionState.send(false)
     }
 
     // MARK: - Gestures

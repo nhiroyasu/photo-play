@@ -10,6 +10,7 @@ public protocol ImageCanvasManager: CanvasManager, GestureMappableCanvasManager,
     var pen: Pen { get }
     func setPen(_ pen: Pen)
     func penPublisher() -> AnyPublisher<Pen, Never>
+    func selectionStatePublisher() -> AnyPublisher<Bool, Never>
 
     // Canvas
     func resizeCanvas(size: ImageSize)
@@ -30,6 +31,7 @@ public protocol ImageCanvasManager: CanvasManager, GestureMappableCanvasManager,
     func addImage(
         image: CGImage
     )
+    func removeSelectingLayer()
 
     // Transform
     func resetCrop()

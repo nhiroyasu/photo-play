@@ -5,10 +5,12 @@ extension CAImageCanvasManager: CanvasSelectionDelegate {
         // NOTE: Now, we only support single selection.
         selectedLayers = [layer]
         selectionFrameLayer.setNeedsDisplay()
+        onChangeSelectionState.send(true)
     }
 
     func deselectAll() {
         selectedLayers.removeAll()
         selectionFrameLayer.setNeedsDisplay()
+        onChangeSelectionState.send(false)
     }
 }

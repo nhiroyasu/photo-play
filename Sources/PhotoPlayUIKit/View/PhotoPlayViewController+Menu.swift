@@ -149,5 +149,6 @@ extension PhotoPlayViewController {
         filterMenuContainerView.isHidden = true
         paintMenuContainerView.isHidden = true
         textMenuContainerView.isHidden = true
+        selectionMenuContainerView.isHidden = true
     }
 }

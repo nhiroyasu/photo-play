@@ -40,6 +40,8 @@
                 <outlet property="penButton" destination="F8L-5w-HwR" id="UxX-Zr-aBr"/>
                 <outlet property="penColorWell" destination="DEg-xH-gQO" id="x1w-IT-zfR"/>
                 <outlet property="saturationButton" destination="1MO-r9-uF5" id="jis-Sk-nB7"/>
+                <outlet property="selectionLayerDeleteButton" destination="hod-nH-NPz" id="v4h-v5-rOE"/>
+                <outlet property="selectionMenuContainerView" destination="fQJ-6R-1iH" id="NLS-3X-cma"/>
                 <outlet property="sharpnessButton" destination="KOl-Df-cCo" id="7Jk-Fi-eX1"/>
                 <outlet property="temperatureButton" destination="dtz-os-FET" id="mM8-Jm-wmt"/>
                 <outlet property="textColorWell" destination="WaW-kT-FpC" id="HhU-9B-nVB"/>
@@ -55,14 +57,44 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pDH-ne-HeN" userLabel="CanvasView">
-                    <rect key="frame" x="0.0" y="59" width="393" height="578.33333333333337"/>
+                    <rect key="frame" x="0.0" y="59" width="393" height="517.66666666666663"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </view>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="1OG-Ha-Kdq" userLabel="Menu">
-                    <rect key="frame" x="0.0" y="637.33333333333337" width="393" height="180.66666666666663"/>
+                    <rect key="frame" x="0.0" y="576.66666666666663" width="393" height="241.33333333333337"/>
                     <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fQJ-6R-1iH" userLabel="Selection Menu">
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="60.666666666666664"/>
+                            <subviews>
+                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="krw-OY-5gn">
+                                    <rect key="frame" x="166.33333333333334" y="4" width="60.666666666666657" height="52.666666666666664"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hod-nH-NPz">
+                                            <rect key="frame" x="0.0" y="0.0" width="60.666666666666664" height="52.666666666666664"/>
+                                            <color key="tintColor" systemColor="labelColor"/>
+                                            <state key="normal" title="Button"/>
+                                            <buttonConfiguration key="configuration" style="plain" imagePlacement="top" title="Delete" imagePadding="4">
+                                                <imageReference key="image" image="trash" catalog="system" symbolScale="medium"/>
+                                                <fontDescription key="titleFontDescription" style="UICTFontTextStyleCaption1"/>
+                                            </buttonConfiguration>
+                                            <connections>
+                                                <action selector="didTapDeleteSelectionLayer" destination="-1" eventType="touchUpInside" id="K6w-BT-mKF"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="krw-OY-5gn" secondAttribute="trailing" constant="16" id="3aH-Lb-cFn"/>
+                                <constraint firstItem="krw-OY-5gn" firstAttribute="top" secondItem="fQJ-6R-1iH" secondAttribute="top" constant="4" id="90C-6S-5t1"/>
+                                <constraint firstItem="krw-OY-5gn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fQJ-6R-1iH" secondAttribute="leading" constant="16" id="LB2-R9-Mza"/>
+                                <constraint firstItem="krw-OY-5gn" firstAttribute="centerX" secondItem="fQJ-6R-1iH" secondAttribute="centerX" id="RzM-d0-mAX"/>
+                                <constraint firstAttribute="bottom" secondItem="krw-OY-5gn" secondAttribute="bottom" constant="4" id="d7j-A5-JUg"/>
+                            </constraints>
+                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fdz-qY-I3J" userLabel="Filter Menu">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="96"/>
+                            <rect key="frame" x="0.0" y="60.666666666666742" width="393" height="96"/>
                             <subviews>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="pzE-uC-sRE">
                                     <rect key="frame" x="0.0" y="0.0" width="393" height="96"/>
@@ -87,7 +119,7 @@
                             </constraints>
                         </view>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YJR-2X-eKP" userLabel="Crop Menu">
-                            <rect key="frame" x="0.0" y="96" width="393" height="8"/>
+                            <rect key="frame" x="0.0" y="156.66666666666674" width="393" height="8"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="nWm-t9-LTu">
                                     <rect key="frame" x="83.666666666666686" y="4" width="226" height="0.0"/>
@@ -157,7 +189,7 @@
                             </constraints>
                         </view>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M1A-ad-Yls" userLabel="Text Menu">
-                            <rect key="frame" x="0.0" y="96" width="393" height="16"/>
+                            <rect key="frame" x="0.0" y="156.66666666666674" width="393" height="16"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Lpa-eQ-cf8">
                                     <rect key="frame" x="16" y="8" width="361" height="0.0"/>
@@ -191,7 +223,7 @@
                             </constraints>
                         </view>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rua-WA-6jg" userLabel="Paint Menu">
-                            <rect key="frame" x="0.0" y="96" width="393" height="66"/>
+                            <rect key="frame" x="0.0" y="156.66666666666674" width="393" height="66"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Slw-hR-Pig">
                                     <rect key="frame" x="0.0" y="0.0" width="393" height="66"/>
@@ -307,7 +339,7 @@
                             </constraints>
                         </view>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X64-yU-wnv" userLabel="Control Menu">
-                            <rect key="frame" x="0.0" y="96" width="393" height="8"/>
+                            <rect key="frame" x="0.0" y="156.66666666666674" width="393" height="8"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Elx-Pz-qRS">
                                     <rect key="frame" x="0.0" y="0.0" width="393" height="8"/>
@@ -442,7 +474,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yzw-XQ-I27" userLabel="Menu">
-                            <rect key="frame" x="0.0" y="96" width="393" height="84.666666666666686"/>
+                            <rect key="frame" x="0.0" y="156.66666666666674" width="393" height="84.666666666666686"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="0Ci-Rh-Izx">
                                     <rect key="frame" x="32.333333333333343" y="8" width="328.33333333333326" height="68.666666666666671"/>
@@ -585,6 +617,7 @@
         <image name="thermometer.variable" catalog="system" width="80" height="128"/>
         <image name="trapezoid.and.line.horizontal" catalog="system" width="128" height="91"/>
         <image name="trapezoid.and.line.vertical" catalog="system" width="126" height="128"/>
+        <image name="trash" catalog="system" width="117" height="128"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

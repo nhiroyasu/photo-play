@@ -61,6 +61,9 @@ public class PhotoPlayViewController: UIViewController {
     @IBOutlet weak var textColorWell: UIColorWell!
     private var textMenuInputAccessoryView: PhotoPlayTextMenuInputAccessoryView!
 
+    @IBOutlet weak var selectionMenuContainerView: UIView!
+    @IBOutlet weak var selectionLayerDeleteButton: UIButton!
+
     var cancellable: Set<AnyCancellable> = []
 
     let canvasViewDispatchQueue = DispatchQueue(
@@ -114,6 +117,9 @@ public class PhotoPlayViewController: UIViewController {
         textMenuContainerView.isHidden = true
         setUpTextMenu()
 
+        selectionMenuContainerView.isHidden = true
+        setUpSelectionMenu()
+
 
 
         // default setting
@@ -147,5 +153,16 @@ public class PhotoPlayViewController: UIViewController {
             canvasView.topAnchor.constraint(equalTo: canvasContainerView.topAnchor),
             canvasView.bottomAnchor.constraint(equalTo: canvasContainerView.bottomAnchor)
         ])
+
+        canvasManager.selectionStatePublisher()
+            .sink { [weak self] isSelecting in
+                if isSelecting {
+                    self?.allUnselectForMenu()
+                    self?.selectionMenuContainerView.isHidden = false
+                } else {
+                    self?.selectionMenuContainerView.isHidden = true
+                }
+            }
+            .store(in: &cancellable)
     }
 }
