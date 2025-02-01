@@ -3,19 +3,14 @@ import QuartzCore
 extension CAImageCanvasManager: PanGestureMappedTransformDelegate {
     func pan(_ context: TranslationContext) {
         switch context {
-        case .relativeLayer(let target, let fromWorkspacePosition, let gestureTranslation):
-            let nextWorkspacePosition = CGPoint(
-                x: fromWorkspacePosition.x + gestureTranslation.x,
-                y: fromWorkspacePosition.y + gestureTranslation.y
-            )
-            let convertedPosition = workspace.convert(nextWorkspacePosition, to: canvas)
+        case .relativeLayer(let target, let fromRelativePoint, let gestureTranslation):
             let transformedPosition = transformPoint(
                 gestureTranslation,
-                with: CATransform3DInvert(self.transform)
+                with: CATransform3DInvert(removeTranslation(for: self.transform))
             )
             target.relativePoint = CGPoint(
-                x: fromWorkspacePosition.x + transformedPosition.x / baseImageFrame.width,
-                y: fromWorkspacePosition.y + transformedPosition.y / baseImageFrame.height
+                x: fromRelativePoint.x + transformedPosition.x / baseImageFrame.width,
+                y: fromRelativePoint.y + transformedPosition.y / baseImageFrame.height
             )
 
             CATransaction.begin()

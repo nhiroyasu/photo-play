@@ -23,7 +23,7 @@ class PanGestureMappedOverlayTranslation: CanvasPanGestureMappable {
 
         context = .relativeLayer(
             target: hitLayer,
-            fromWorkspacePosition: hitLayer.relativePoint,
+            fromRelativePoint: hitLayer.relativePoint,
             gestureTranslation: .zero
         )
     }
@@ -32,10 +32,10 @@ class PanGestureMappedOverlayTranslation: CanvasPanGestureMappable {
         guard let context else { return }
 
         switch context {
-        case .relativeLayer(let target, let fromWorkspacePosition, let gestureTranslation):
+        case .relativeLayer(let target, let fromRelativePoint, let gestureTranslation):
             self.context = .relativeLayer(
                 target: target,
-                fromWorkspacePosition: fromWorkspacePosition,
+                fromRelativePoint: fromRelativePoint,
                 gestureTranslation: CGPoint(
                     x: translation.x,
                     y: translation.y
