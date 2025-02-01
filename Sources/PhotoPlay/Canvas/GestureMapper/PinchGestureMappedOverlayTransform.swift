@@ -3,9 +3,19 @@ import QuartzCore
 class PinchGestureMappedOverlayTransform: CanvasPinchGestureMappable {
     private var context: PinchGestureContext?
 
-    weak var hitDetector: (any CanvasHitDetecter)!
-    weak var selectionDelegate: (any CanvasSelectionDelegate)!
-    weak var delegate: (any PinchGestureMappedTransformDelegate)!
+    private unowned let hitDetector: any CanvasHitDetecter
+    private unowned let selectionDelegate: any CanvasSelectionDelegate
+    private unowned let delegate: any PinchGestureMappedTransformDelegate
+
+    init(
+        hitDetector: any CanvasHitDetecter,
+        selectionDelegate: any CanvasSelectionDelegate,
+        delegate: any PinchGestureMappedTransformDelegate
+    ) {
+        self.hitDetector = hitDetector
+        self.selectionDelegate = selectionDelegate
+        self.delegate = delegate
+    }
 
     func began(_ position: CGPoint) {
         guard let hitLayer = hitDetector.hitTransformable(at: position) as? CAParentRelativeLayer else { return }

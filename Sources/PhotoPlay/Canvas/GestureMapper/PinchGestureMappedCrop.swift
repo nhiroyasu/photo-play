@@ -5,23 +5,27 @@ class PinchGestureMappedCrop: CanvasPinchGestureMappable {
     private let canvasBounds: CGRect
     private let baseImageFrame: CGRect
 
-    weak var outBoundsMaskSwitcher: OutBoundsMaskSwitcher?
-    weak var transformChanger: CanvasTransformChanger?
+    private unowned let outBoundsMaskSwitcher: OutBoundsMaskSwitcher
+    private unowned let transformChanger: CanvasTransformChanger
 
     private var context: CropContext?
 
     init(
         currentTransform: CATransform3D,
         canvasBounds: CGRect,
-        baseImageFrame: CGRect
+        baseImageFrame: CGRect,
+        outBoundsMaskSwitcher: OutBoundsMaskSwitcher,
+        transformChanger: CanvasTransformChanger
     ) {
         self.currentTransform = currentTransform
         self.canvasBounds = canvasBounds
         self.baseImageFrame = baseImageFrame
+        self.outBoundsMaskSwitcher = outBoundsMaskSwitcher
+        self.transformChanger = transformChanger
     }
 
     func began(_ position: CGPoint) {
-        outBoundsMaskSwitcher?.on()
+        outBoundsMaskSwitcher.on()
 
         context = CropContext.transform(
             fromTransform: currentTransform,
@@ -42,7 +46,7 @@ class PinchGestureMappedCrop: CanvasPinchGestureMappable {
                 fromTransform: fromTransform,
                 concatTransform: newTransform
             )
-            transformChanger?.onChange(to: newTransform, immediate: true)
+            transformChanger.onChange(to: newTransform, immediate: true)
 
         case .crop:
             break
@@ -63,8 +67,8 @@ class PinchGestureMappedCrop: CanvasPinchGestureMappable {
             let fillTransform = fillTransformIfOutBounds(canvasFrameOnTargetCoord, in: targetFrame)
             let newTransform = CATransform3DConcat(concatTransform, fillTransform)
 
-            transformChanger?.onChange(to: newTransform, immediate: false)
-            outBoundsMaskSwitcher?.off()
+            transformChanger.onChange(to: newTransform, immediate: false)
+            outBoundsMaskSwitcher.off()
 
             self.context = nil
 

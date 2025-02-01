@@ -1,8 +1,8 @@
 import QuartzCore
 
 class RawTouchMappedPaintingLine: CanvasRawTouchMappable {
-    private let paintLayer: CAPaintLayer
-    weak var coordinateDelegate: (any CanvasCoordinateConvertable)!
+    private unowned let paintLayer: CAPaintLayer
+    private unowned let coordinateDelegate: any CanvasCoordinateConvertable
 
     init(
         paintLayer: CAPaintLayer,

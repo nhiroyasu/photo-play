@@ -3,9 +3,19 @@ import QuartzCore
 class PanGestureMappedOverlayTranslation: CanvasPanGestureMappable {
     private var context: TranslationContext?
 
-    weak var hitDetector: (any CanvasHitDetecter)!
-    weak var selectionDelegate: (any CanvasSelectionDelegate)!
-    weak var delegate: (any PanGestureMappedTransformDelegate)!
+    private unowned let hitDetector: any CanvasHitDetecter
+    private unowned let selectionDelegate: any CanvasSelectionDelegate
+    private unowned let delegate: any PanGestureMappedTransformDelegate
+
+    init(
+        hitDetector: any CanvasHitDetecter,
+        selectionDelegate: any CanvasSelectionDelegate,
+        delegate: any PanGestureMappedTransformDelegate
+    ) {
+        self.hitDetector = hitDetector
+        self.selectionDelegate = selectionDelegate
+        self.delegate = delegate
+    }
 
     public func began(_ position: CGPoint) {
         guard let hitLayer = hitDetector.hitTransformable(at: position) as? CAParentRelativeLayer else { return }

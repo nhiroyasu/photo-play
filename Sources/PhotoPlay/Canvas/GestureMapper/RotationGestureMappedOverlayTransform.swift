@@ -3,9 +3,19 @@ import QuartzCore
 class RotationGestureMappedOverlayTransform: CanvasRotationGestureMappable {
     private var context: RotationGestureContext?
 
-    weak var hitDetecter: (any CanvasHitDetecter)!
-    weak var selectionDelegate: (any CanvasSelectionDelegate)!
-    weak var delegate: (any RotationGestureMappedTransformDelegate)!
+    private unowned let hitDetecter: any CanvasHitDetecter
+    private unowned let selectionDelegate: any CanvasSelectionDelegate
+    private unowned let delegate: any RotationGestureMappedTransformDelegate
+
+    init(
+        hitDetecter: any CanvasHitDetecter,
+        selectionDelegate: any CanvasSelectionDelegate,
+        delegate: any RotationGestureMappedTransformDelegate
+    ) {
+        self.hitDetecter = hitDetecter
+        self.selectionDelegate = selectionDelegate
+        self.delegate = delegate
+    }
 
     func began(_ position: CGPoint) {
         guard let hitLayer = hitDetecter.hitTransformable(at: position) as? CAParentRelativeLayer else { return }

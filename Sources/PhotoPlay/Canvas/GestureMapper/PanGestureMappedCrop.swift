@@ -6,9 +6,9 @@ class PanGestureMappedCrop: CanvasPanGestureMappable {
     private let canvasBounds: CGRect
     private let baseImageFrame: CGRect
 
-    weak var outBoundsMaskSwitcher: OutBoundsMaskSwitcher?
-    weak var transformChanger: CanvasTransformChanger?
-    weak var delegate: (PanGestureMappedCropDelegate)?
+    private unowned let outBoundsMaskSwitcher: any OutBoundsMaskSwitcher
+    private unowned let transformChanger: any CanvasTransformChanger
+    private unowned let delegate: any PanGestureMappedCropDelegate
 
     private var context: CropContext?
 
@@ -16,12 +16,18 @@ class PanGestureMappedCrop: CanvasPanGestureMappable {
         currentTransform fromTransform: CATransform3D,
         croppingGuideLayerFrame: CGRect,
         canvasBounds: CGRect,
-        baseImageFrame: CGRect
+        baseImageFrame: CGRect,
+        outBoundsMaskSwitcher: any OutBoundsMaskSwitcher,
+        transformChanger: any CanvasTransformChanger,
+        delegate: any PanGestureMappedCropDelegate
     ) {
         self.fromTransform = fromTransform
         self.croppingGuideLayerFrame = croppingGuideLayerFrame
         self.canvasBounds = canvasBounds
         self.baseImageFrame = baseImageFrame
+        self.outBoundsMaskSwitcher = outBoundsMaskSwitcher
+        self.transformChanger = transformChanger
+        self.delegate = delegate
     }
 
     func began(_ position: CGPoint) {
@@ -67,13 +73,13 @@ class PanGestureMappedCrop: CanvasPanGestureMappable {
                 fromCropFrame: croppingGuideLayerFrame,
                 toCropFrame: croppingGuideLayerFrame
             )
-            delegate?.beganCropping()
+            delegate.beganCropping()
         } else {
             context = CropContext.transform(
                 fromTransform: fromTransform,
                 concatTransform: fromTransform
             )
-            outBoundsMaskSwitcher?.on()
+            outBoundsMaskSwitcher.on()
         }
     }
 
@@ -92,7 +98,7 @@ class PanGestureMappedCrop: CanvasPanGestureMappable {
                 concatTransform: newTransform
             )
 
-            transformChanger?.onChange(to: newTransform, immediate: true)
+            transformChanger.onChange(to: newTransform, immediate: true)
 
         case let .crop(cropOrigin, fromCropFrame, toCropFrame):
             var newCropFrame: CGRect
@@ -139,7 +145,7 @@ class PanGestureMappedCrop: CanvasPanGestureMappable {
                 toCropFrame: newCropFrame
             )
 
-            delegate?.changeCropping(fromCropFrame: fromCropFrame, toCropFrame: newCropFrame)
+            delegate.changeCropping(fromCropFrame: fromCropFrame, toCropFrame: newCropFrame)
         }
     }
 
@@ -149,10 +155,6 @@ class PanGestureMappedCrop: CanvasPanGestureMappable {
         switch context {
         case .transform(_, let concatTransform):
             let imgFrame = baseImageFrame
-//            let ignoreInvertTransform = CATransform3DConcat(
-//                concatTransform,
-//                CATransform3DMakeScale(isInvertedHorizontal ? -1 : 1, isInvertedVertical ? -1 : 1, 1)
-//            )
             let canvasFrame = transformRect(
                 canvasBounds,
                 with: CATransform3DInvert(concatTransform),
@@ -187,13 +189,13 @@ class PanGestureMappedCrop: CanvasPanGestureMappable {
                     CATransform3DMakeTranslation(reverseTranslation.x, reverseTranslation.y, 0)
                 )
                 
-                transformChanger?.onChange(to: newTransform, immediate: false)
+                transformChanger.onChange(to: newTransform, immediate: false)
             }
 
-            outBoundsMaskSwitcher?.off()
+            outBoundsMaskSwitcher.off()
 
         case let .crop(origin, fromCropFrame, toCropFrame):
-            delegate?.endCropping(
+            delegate.endCropping(
                 fromCropFrame: fromCropFrame,
                 toLayerFrame: toCropFrame
             )

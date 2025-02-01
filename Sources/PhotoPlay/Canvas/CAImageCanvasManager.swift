@@ -253,18 +253,19 @@ public final class CAImageCanvasManager: CACanvasManager, ImageCanvasManager {
                 currentTransform: self.transform,
                 croppingGuideLayerFrame: croppingGuideLayer.frame,
                 canvasBounds: canvas.bounds,
-                baseImageFrame: baseImageFrame
+                baseImageFrame: baseImageFrame,
+                outBoundsMaskSwitcher: self,
+                transformChanger: self,
+                delegate: self
             )
-            gestureMapper.delegate = self
-            gestureMapper.transformChanger = self
-            gestureMapper.outBoundsMaskSwitcher = self
             return gestureMapper
 
         case .select:
-            let gestureMapper = PanGestureMappedOverlayTranslation()
-            gestureMapper.hitDetector = self
-            gestureMapper.selectionDelegate = self
-            gestureMapper.delegate = self
+            let gestureMapper = PanGestureMappedOverlayTranslation(
+                hitDetector: self,
+                selectionDelegate: self,
+                delegate: self
+            )
             return gestureMapper
 
         case .pen, .erase:
@@ -278,17 +279,18 @@ public final class CAImageCanvasManager: CACanvasManager, ImageCanvasManager {
             let gestureMapper = PinchGestureMappedCrop(
                 currentTransform: self.transform,
                 canvasBounds: canvas.bounds,
-                baseImageFrame: baseImageFrame
+                baseImageFrame: baseImageFrame,
+                outBoundsMaskSwitcher: self,
+                transformChanger: self
             )
-            gestureMapper.transformChanger = self
-            gestureMapper.outBoundsMaskSwitcher = self
             return gestureMapper
 
         case .select:
-            let gestureMapper = PinchGestureMappedOverlayTransform()
-            gestureMapper.hitDetector = self
-            gestureMapper.selectionDelegate = self
-            gestureMapper.delegate = self
+            let gestureMapper = PinchGestureMappedOverlayTransform(
+                hitDetector: self,
+                selectionDelegate: self,
+                delegate: self
+            )
             return gestureMapper
 
         case .pen, .erase:
@@ -302,17 +304,18 @@ public final class CAImageCanvasManager: CACanvasManager, ImageCanvasManager {
             let gestureMapper = RotationGestureMappedCrop(
                 currentTransform: self.transform,
                 canvasBounds: canvas.bounds,
-                baseImageFrame: baseImageFrame
+                baseImageFrame: baseImageFrame,
+                outBoundsMaskSwitcher: self,
+                transformChanger: self
             )
-            gestureMapper.transformChanger = self
-            gestureMapper.outBoundsMaskSwitcher = self
             return gestureMapper
 
         case .select:
-            let gestureMapper = RotationGestureMappedOverlayTransform()
-            gestureMapper.hitDetecter = self
-            gestureMapper.selectionDelegate = self
-            gestureMapper.delegate = self
+            let gestureMapper = RotationGestureMappedOverlayTransform(
+                hitDetecter: self,
+                selectionDelegate: self,
+                delegate: self
+            )
             return gestureMapper
 
         case .pen, .erase:
@@ -323,9 +326,10 @@ public final class CAImageCanvasManager: CACanvasManager, ImageCanvasManager {
     public func tapGestureMapper() -> CanvasTapGestureMappable {
         switch operation {
         case .select:
-            let gestureMapper = TapGestureMappedSelection()
-            gestureMapper.selectionDelegate = self
-            gestureMapper.hitDetecter = self
+            let gestureMapper = TapGestureMappedSelection(
+                hitDetecter: self,
+                selectionDelegate: self
+            )
             return gestureMapper
 
         case .pen, .erase, .crop: return TapGestureMappedEmpty()

@@ -4,9 +4,8 @@ class RotationGestureMappedCrop: CanvasRotationGestureMappable {
     private let fromTransform: CATransform3D
     private let canvasBounds: CGRect
     private let baseImageFrame: CGRect
-
-    weak var outBoundsMaskSwitcher: OutBoundsMaskSwitcher?
-    weak var transformChanger: CanvasTransformChanger?
+    private unowned let outBoundsMaskSwitcher: OutBoundsMaskSwitcher
+    private unowned let transformChanger: CanvasTransformChanger
 
     private var context: CropContext?
     private var resizeCropSize: CGSize?
@@ -14,15 +13,19 @@ class RotationGestureMappedCrop: CanvasRotationGestureMappable {
     init(
         currentTransform fromTransform: CATransform3D,
         canvasBounds: CGRect,
-        baseImageFrame: CGRect
+        baseImageFrame: CGRect,
+        outBoundsMaskSwitcher: OutBoundsMaskSwitcher,
+        transformChanger: CanvasTransformChanger
     ) {
         self.fromTransform = fromTransform
         self.canvasBounds = canvasBounds
         self.baseImageFrame = baseImageFrame
+        self.outBoundsMaskSwitcher = outBoundsMaskSwitcher
+        self.transformChanger = transformChanger
     }
 
     func began(_ position: CGPoint) {
-        outBoundsMaskSwitcher?.on()
+        outBoundsMaskSwitcher.on()
 
         context = CropContext.transform(
             fromTransform: fromTransform,
@@ -52,14 +55,14 @@ class RotationGestureMappedCrop: CanvasRotationGestureMappable {
                 concatTransform: newTransform
             )
 
-            transformChanger?.onChange(to: newTransform, immediate: true)
+            transformChanger.onChange(to: newTransform, immediate: true)
 
         case .crop: break
         }
     }
 
     func end() {
-        outBoundsMaskSwitcher?.off()
+        outBoundsMaskSwitcher.off()
         context = nil
     }
 }
