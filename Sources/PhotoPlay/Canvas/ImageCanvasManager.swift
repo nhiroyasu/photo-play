@@ -5,11 +5,17 @@ import CoreImage
 public protocol ImageCanvasManager: CanvasManager, GestureMappableCanvasManager, RawTouchMappableCanvasManager {
     // State Management
     var operation: ImageCanvasOperation { get }
-    func setOperation(_ operation: ImageCanvasOperation)
-    func operationPublisher() -> AnyPublisher<ImageCanvasOperation, Never>
     var pen: Pen { get }
+    var eraserSize: CGFloat { get }
+
+    func setOperation(_ operation: ImageCanvasOperation)
     func setPen(_ pen: Pen)
+    func setEraserSize(_ size: CGFloat)
+
+    func operationPublisher() -> AnyPublisher<ImageCanvasOperation, Never>
     func penPublisher() -> AnyPublisher<Pen, Never>
+    func eraserSizePublisher() -> AnyPublisher<CGFloat, Never>
+    
     func selectionStatePublisher() -> AnyPublisher<Bool, Never>
 
     // Canvas
@@ -18,8 +24,13 @@ public protocol ImageCanvasManager: CanvasManager, GestureMappableCanvasManager,
     // Image Filter
     func applyImageFilter(_ imageFilters: [ImageFilter], asyncRendering: Bool)
 
-    // Eraser
-    func setEraserSize(_ size: CGFloat)
+    // Paint
+    func undoPaint()
+    func redoPaint()
+    func canUndoPaint() -> Bool
+    func canRedoPaint() -> Bool
+    func canUndoPaintPublisher() -> AnyPublisher<Bool, Never>
+    func canRedoPaintPublisher() -> AnyPublisher<Bool, Never>
 
     // Overlay
     func addText(

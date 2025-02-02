@@ -52,6 +52,14 @@ extension PhotoPlayViewController {
         }
     }
 
+    @IBAction func didTapUndoPaint(_ sender: Any) {
+        canvasManager.undoPaint()
+    }
+
+    @IBAction func didTapRedoPaint(_ sender: Any) {
+        canvasManager.redoPaint()
+    }
+
     // MARK: - Helper
 
     func setUpPaintMenu() {
@@ -73,12 +81,12 @@ extension PhotoPlayViewController {
             guard let self else { return }
             if button.isSelected {
                 button.configuration = .photoPlaySelected(
-                    image: UIImage(systemName: "scribble.variable"),
+                    image: UIImage(systemName: "scribble.variable")?.withConfiguration(UIImage.SymbolConfiguration(scale: .medium)),
                     text: "Pen \(String(format: "%2.0f", penSizeValue))pt"
                 )
             } else {
                 button.configuration = .photoPlayNormal(
-                    image: UIImage(systemName: "scribble.variable"),
+                    image: UIImage(systemName: "scribble.variable")?.withConfiguration(UIImage.SymbolConfiguration(scale: .medium)),
                     text: "Pen \(String(format: "%2.0f", penSizeValue))pt"
                 )
             }
@@ -88,16 +96,47 @@ extension PhotoPlayViewController {
             guard let self else { return }
             if button.isSelected {
                 button.configuration = .photoPlaySelected(
-                    image: UIImage(systemName: "eraser"),
+                    image: UIImage(systemName: "eraser")?.withConfiguration(UIImage.SymbolConfiguration(scale: .medium)),
                     text: "Eraser \(String(format: "%2.0f", eraserSize))pt"
                 )
             } else {
                 button.configuration = .photoPlayNormal(
-                    image: UIImage(systemName: "eraser"),
+                    image: UIImage(systemName: "eraser")?.withConfiguration(UIImage.SymbolConfiguration(scale: .medium)),
                     text: "Eraser \(String(format: "%2.0f", eraserSize))pt"
                 )
             }
         }
+
+        undoPaintButton.configurationUpdateHandler = { [weak self] button in
+            guard let self else { return }
+            button.configuration = .photoPlayNormal(
+                image: UIImage(systemName: "arrow.uturn.backward")?.withConfiguration(UIImage.SymbolConfiguration(scale: .medium)),
+                text: "Undo"
+            )
+        }
+
+        redoPaintButton.configurationUpdateHandler = { [weak self] button in
+            button.configuration = .photoPlayNormal(
+                image: UIImage(systemName: "arrow.uturn.right")?.withConfiguration(UIImage.SymbolConfiguration(scale: .medium)),
+                text: "Redo"
+            )
+        }
+
+        undoPaintButton.isEnabled = canvasManager.canUndoPaint()
+        canvasManager.canUndoPaintPublisher()
+            .sink { [weak self] canUndo in
+                guard let self else { return }
+                self.undoPaintButton.isEnabled = canUndo
+            }
+            .store(in: &cancellable)
+
+        redoPaintButton.isEnabled = canvasManager.canRedoPaint()
+        canvasManager.canRedoPaintPublisher()
+            .sink { [weak self] canRedo in
+                guard let self else { return }
+                self.redoPaintButton.isEnabled = canRedo
+            }
+            .store(in: &cancellable)
     }
 
     private func penAttrStr(_ value: Float) -> AttributedString {

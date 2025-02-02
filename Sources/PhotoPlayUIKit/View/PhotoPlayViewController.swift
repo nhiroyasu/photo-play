@@ -51,6 +51,8 @@ public class PhotoPlayViewController: UIViewController {
     @IBOutlet weak var penButton: UIButton!
     @IBOutlet weak var penColorWell: UIColorWell!
     @IBOutlet weak var eraserButton: UIButton!
+    @IBOutlet weak var undoPaintButton: UIButton!
+    @IBOutlet weak var redoPaintButton: UIButton!
     var onChangePaintSliderValue: ((Float) -> Void)?
     var penSizeValue: Float = 50
     var eraserSize: Float = 200

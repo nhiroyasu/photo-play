@@ -18,6 +18,23 @@ extension UIButton.Configuration {
         return config
     }
 
+    static func photoPlayDisabled(image: UIImage?, text: String) -> Self {
+        var config = Self.filled()
+        config.attributedTitle = AttributedString(
+            text,
+            attributes: AttributeContainer([
+                .font: UIFont.systemFont(ofSize: 12)
+            ])
+        )
+        config.image = image
+        config.imagePadding = 4
+        config.imagePlacement = .top
+        config.baseForegroundColor = .tertiaryLabel
+        config.baseBackgroundColor = .systemBackground
+        config.cornerStyle = .medium
+        return config
+    }
+
     static func photoPlaySelected(image: UIImage?, text: String) -> Self {
         var config = Self.filled()
         config.attributedTitle = AttributedString(

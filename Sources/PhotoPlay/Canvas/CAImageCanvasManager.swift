@@ -23,11 +23,13 @@ public final class CAImageCanvasManager: CACanvasManager, ImageCanvasManager {
     var needsAdjustingTransform: AdjustingTransformReason?
     var needsLayoutCroppingGuide: LayoutCroppingGuideReason?
     var selectedLayers: [CALayer] = []
-
     public var operation: ImageCanvasOperation = .select
-    let onChangeOperation: PassthroughSubject<ImageCanvasOperation, Never> = .init()
     public var pen: Pen = .gPen(color: .init(gray: 0, alpha: 1.0), size: 0.0)
+    public var eraserSize: CGFloat = 0.0
+
+    let onChangeOperation: PassthroughSubject<ImageCanvasOperation, Never> = .init()
     let onChangePen: PassthroughSubject<Pen, Never> = .init()
+    let onChangeEraserSize: PassthroughSubject<CGFloat, Never> = .init()
     let onChangeSelectionState: PassthroughSubject<Bool, Never> = .init()
 
     var cancellable: Set<AnyCancellable> = []
@@ -85,6 +87,11 @@ public final class CAImageCanvasManager: CACanvasManager, ImageCanvasManager {
                 self?.croppingGuideLayer.isHidden = operation != .crop
             }
             .store(in: &cancellable)
+        self.onChangeEraserSize
+            .sink { [weak self] size in
+                self?.paintLayer.eraserSize = size
+            }
+            .store(in: &cancellable)
         self.onChangeOperation
             .sink { [weak self] _ in
                 self?.selectedLayers.removeAll()
@@ -112,6 +119,15 @@ public final class CAImageCanvasManager: CACanvasManager, ImageCanvasManager {
 
     public func penPublisher() -> AnyPublisher<Pen, Never> {
         onChangePen.eraseToAnyPublisher()
+    }
+
+    public func setEraserSize(_ size: CGFloat) {
+        self.eraserSize = size
+        onChangeEraserSize.send(size)
+    }
+
+    public func eraserSizePublisher() -> AnyPublisher<CGFloat, Never> {
+        onChangeEraserSize.eraseToAnyPublisher()
     }
 
     public func selectionStatePublisher() -> AnyPublisher<Bool, Never> {
@@ -193,8 +209,28 @@ public final class CAImageCanvasManager: CACanvasManager, ImageCanvasManager {
 
     // MARK: - Paint
 
-    public func setEraserSize(_ size: CGFloat) {
-        paintLayer.eraserSize = size
+    public func undoPaint() {
+        paintLayer.undo()
+    }
+
+    public func redoPaint() {
+        paintLayer.redo()
+    }
+
+    public func canUndoPaint() -> Bool {
+        paintLayer.canUndo()
+    }
+
+    public func canRedoPaint() -> Bool {
+        paintLayer.canRedo()
+    }
+
+    public func canUndoPaintPublisher() -> AnyPublisher<Bool, Never> {
+        paintLayer.canUndoPublisher()
+    }
+
+    public func canRedoPaintPublisher() -> AnyPublisher<Bool, Never> {
+        paintLayer.canRedoPublisher()
     }
 
     // MARK: - Overlay Layers
